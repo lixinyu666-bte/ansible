@@ -1,0 +1,19 @@
+---
+- hosts: lua
+  user: root
+
+  tasks:
+    - name: Remove /tmp/xui
+      file:
+        path: /tmp/xui
+        state: absent
+    - name: Backup sources.list
+      shell: cd /etc/apt/ && cp sources.list sources.list-`date +%Y%m%d%H%M`
+    - name: Extract
+      unarchive:
+        src: "{{ file }}"
+        dest: /tmp/
+    - name: Copy LUA to /usr/local/gw-xswitch
+      shell: "cp -rp /tmp/xui /usr/local/gw-xswitch"
+    - name: up
+      shell: cd /usr/local/gw-xswitch && docker-compose up -d

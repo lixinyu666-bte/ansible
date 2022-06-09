@@ -1,0 +1,12 @@
+- hosts: localhost
+  connection: local
+
+  roles:
+    - role: docker-install
+
+- hosts: all
+  user: root
+  connection: local
+
+  roles:
+    - role: docker-install
