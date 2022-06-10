@@ -1,0 +1,27 @@
+---
+- hosts: postgresql
+  user: root
+
+  roles:
+    - role: postgresql-install
+
+- hosts: xswitch
+  user: root
+
+  roles:
+    - role: xswitch-install
+
+- hosts: kamailio
+  user: root
+
+  roles:
+    - role: kamailio-install
+
+
+- hosts: cman
+  user: root
+
+  roles:
+    - role: cman-install
+    - role: uas-install
+    - role: nats-install

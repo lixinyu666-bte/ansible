@@ -1,0 +1,27 @@
+---
+- hosts: cman
+  user: root
+
+  tasks:
+    - name: Remove package uas
+      file:
+        path: /tmp/uas.tar.gz
+        state: absent
+
+    - name: copy package uas
+      copy:
+        src: "uas.tar.gz"
+        dest: "/tmp"
+
+    - name: docker load
+      shell: docker load -i /tmp/uas.tar.gz && docker load -i /tmp/uas.tar.gz
+
+    - name: update uas version
+      replace:
+          path: /usr/local/cman/docker-compose.yml
+          regexp: '^    image.*'
+          replace: '    image: ccr.ccs.tencentyun.com/xswitch-cluster/uas:{{ v }}'
+
+    - include: roles/uas-install/tasks/uas_down.yml
+
+    - include: roles/uas-install/tasks/uas_up.yml

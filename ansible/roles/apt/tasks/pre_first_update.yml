@@ -1,0 +1,20 @@
+---
+
+- name: Backup sources.list
+  shell: mv /etc/apt/sources.list /etc/apt/sources.list-`date +%Y%m%d%H%M` | cat
+
+- name: Backup resolv.conf
+  shell: cd /etc/ && mv resolv.conf resolv.conf-`date +%Y%m%d%H%M` | cat
+
+- name: Copy file to client
+  copy:
+    src: "files/sources.list.tuna.bullseye"
+    dest: "/etc/apt/"
+
+- name: Copy resolv.conf to client
+  copy:
+    src: "files/resolv.conf"
+    dest: "/etc/"
+
+- name: Rename
+  shell:  cd /etc/apt && mv sources.list.tuna.bullseye sources.list

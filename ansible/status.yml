@@ -1,0 +1,18 @@
+---
+- hosts: all,localhost
+  user: root
+
+  tasks:
+    - name: docker status
+      shell: docker version
+      register: docker 
+
+    - name: docker compose status
+      shell: docker compose version
+      register: compose
+
+    - debug: 
+        var: docker.stdout_lines compose.stdout_lines
+
+    - debug:
+        var: compose.stdout_lines compose.stdout_lines

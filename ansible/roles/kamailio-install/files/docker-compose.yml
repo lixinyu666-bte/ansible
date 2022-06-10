@@ -1,0 +1,15 @@
+# This file extends docker-compose.yml
+version: "3"
+
+services:
+  kamailio:
+    container_name: kamailio
+    image: ccr.ccs.tencentyun.com/olcc/kamailio-ci:5.5.4
+    stdin_open: true
+    privileged: true
+    tty: true
+    env_file: .env
+    network_mode: host
+    stdin_open: true
+    cap_add:
+      - SYS_PTRACE

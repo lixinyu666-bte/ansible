@@ -1,0 +1,8 @@
+---
+- hosts: all
+  user: root
+  tasks:
+    - name: add keys
+      authorized_key: user=root key="{{item}}"
+      with_file:
+        - ./lixinyu.pub

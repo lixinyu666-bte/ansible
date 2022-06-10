@@ -1,0 +1,27 @@
+---
+- hosts: postgres
+  user: root
+
+  tasks:
+    - include: roles/postgresql-install/tasks/pg_down.yml
+
+- hosts: xswitch
+  user: root
+
+  tasks:
+    - include: roles/xswitch-install/tasks/xswitch_down.yml
+
+- hosts: kamailio
+  user: root
+
+  tasks:
+    - include: roles/kamailio-install/tasks/kamailio_down.yml
+
+
+- hosts: cman
+  user: root
+
+  tasks:
+    - include: roles/cman-install/tasks/cman_down.yml
+    - include: roles/uas-install/tasks/cman_down.yml
+    - include: roles/nats-install/tasks/cman_down.yml

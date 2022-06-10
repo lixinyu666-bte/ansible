@@ -1,0 +1,10 @@
+# This file extends docker-compose.yml
+version: "3"
+
+services:
+  uas:
+    container_name: "uas"
+    image: ccr.ccs.tencentyun.com/xswitch-cluster/uas:v1.1.66
+    network_mode: host
+    restart: always
+    env_file: ./.env

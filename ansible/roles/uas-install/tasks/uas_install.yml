@@ -1,0 +1,27 @@
+---
+- name: mkdir workdir
+  shell: mkdir /usr/local/uas
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/uas/"
+
+- name: Copy env
+  copy:
+    src: "files/env.example"
+    dest: "/usr/local/uas/"
+
+- name: Remove package uas
+  file:
+    path: /tmp/uas.tar.gz
+    state: absent
+
+- name: copy package uas
+  copy:
+    src: "uas.tar.gz"
+    dest: "tmp"
+
+- name: docker load
+  shell: docker load -i /tmp/uas.tar.gz && docker load -i /tmp/uas.tar.gz
+

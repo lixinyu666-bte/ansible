@@ -1,0 +1,27 @@
+---
+- hosts: cman
+  user: root
+
+  tasks:
+    - name: Remove package cman
+      file:
+        path: /tmp/cman.tar.gz
+        state: absent
+
+    - name: copy package cman
+      copy:
+        src: "cman.tar.gz"
+        dest: "/tmp"
+
+    - name: docker load
+      shell: docker load -i /tmp/cman.tar.gz && docker load -i /tmp/cman.tar.gz
+
+    - name: update cman version
+      replace:
+          path: /usr/local/cman/docker-compose.yml
+          regexp: '^    image.*'
+          replace: '    image: ccr.ccs.tencentyun.com/xswitch-cluster/cman:{{ v }}'
+
+    - include: roles/cman-install/tasks/cman_down.yml
+
+    - include: roles/cman-install/tasks/cman_up.yml

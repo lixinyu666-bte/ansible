@@ -1,0 +1,29 @@
+---
+- name: mkdir workdir
+  shell: mkdir /usr/local/cman
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/cman/"
+
+- name: Copy env
+  copy:
+    src: "files/env.example"
+    dest: "/usr/local/cman/"
+
+- name: Remove package cman
+  file:
+    path: /tmp/cman.tar.gz
+    state: absent
+
+- name: copy package lua
+  copy:
+    src: "cman.tar.gz"
+    dest: "/tmp"
+
+- name: docker load
+  shell: docker load -i /tmp/cman.tar.gz && docker load -i /tmp/cman.tar.gz
+
+- name: envfile
+  shell: cd /usr/local/cman/ && cp env.example .env

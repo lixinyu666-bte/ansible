@@ -1,0 +1,49 @@
+---
+- hosts: xswitch
+  user: root
+
+  tasks:
+    - name: Remove package lua
+      file:
+        path: /tmp/lua.tar.gz
+        state: absent
+
+    - name: Remove package xui
+      file:
+        path: /tmp/xui.tar.gz
+        state: absent
+
+    - name: copy package lua
+      copy:
+        src: "lua.tar.gz"
+        dest: "/tmp"
+
+    - name: copy package xui
+      copy:
+        src: "xui.tar.gz"
+        dest: "/tmp"
+
+    - name: docker load
+      shell: docker load -i /tmp/lua.tar.gz && docker load -i /tmp/xui.tar.gz
+
+    - name: docker load2
+      shell: docker load -i /tmp/lua.tar.gz && docker load -i /tmp/xui.tar.gz
+
+    # - name: update xswitch version
+    #   lineinfile:
+    #       backup: no
+    #       state: present
+    #       dest: /usr/local/xswitch/docker-compose.yml
+    #       regexp: '^image'
+    #       backrefs: yes
+    #       line: 'image: ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:{{ v }}-cloud-lua'
+
+    - name: update xswitch version
+      replace:
+          path: /usr/local/xswitch/docker-compose.yml
+          regexp: '^    image.*-cloud'
+          replace: '    image: ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:{{ v }}-cloud'
+
+    - include: roles/xswitch-install/tasks/xswitch_down.yml
+
+    - include: roles/xswitch-install/tasks/xswitch_up.yml

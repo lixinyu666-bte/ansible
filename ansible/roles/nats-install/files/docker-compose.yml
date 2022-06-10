@@ -1,0 +1,10 @@
+# This file extends docker-compose.yml
+version: "3"
+
+services:
+  nats:
+    container_name: "nats"
+    image: nats:latest
+    network_mode: host
+    restart: always
+    env_file: ./.env

@@ -1,0 +1,29 @@
+---
+- name: mkdir workdir
+  shell: mkdir /usr/local/kamailio
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/kamailio/"
+
+- name: Copy env
+  copy:
+    src: "files/env.example"
+    dest: "/usr/local/kamailio/"
+
+- name: Remove package kamailio
+  file:
+    path: /tmp/kamailio.tar.gz
+    state: absent
+
+- name: copy package kamailio
+  copy:
+    src: "kamailio.tar.gz"
+    dest: "/tmp"
+
+- name: docker load
+  shell: docker load -i /tmp/kamailio.tar.gz && docker load -i /tmp/kamailio.tar.gz
+
+- name: envfile
+  shell: cd /usr/local/kamailio/ && cp env.example .env

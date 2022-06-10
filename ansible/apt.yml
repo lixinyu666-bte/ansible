@@ -3,4 +3,4 @@
   user: root
 
   roles:
-    - role: docker-install
+    - role: apt

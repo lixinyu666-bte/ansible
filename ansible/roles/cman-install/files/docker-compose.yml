@@ -1,0 +1,9 @@
+# This file extends docker-compose.yml
+version: "3.3"
+
+services:
+  cman:
+    container_name: cman
+    image: ccr.ccs.tencentyun.com/xswitch-cluster/cman:latest
+    env_file: ./.env
+    network_mode: host

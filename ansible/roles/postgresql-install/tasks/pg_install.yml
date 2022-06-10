@@ -1,0 +1,29 @@
+---
+- name: mkdir workdir
+  shell: mkdir /usr/local/pg
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/pg/"
+
+- name: Copy env
+  copy:
+    src: "files/env.example"
+    dest: "/usr/local/pg/"
+
+- name: Remove package pg
+  file:
+    path: /tmp/pg.tar.gz
+    state: absent
+
+- name: copy package pg
+  copy:
+    src: "pg.tar.gz"
+    dest: "/tmp"
+
+- name: docker load
+  shell: docker load -i /tmp/pg.tar.gz && docker load -i /tmp/pg.tar.gz
+
+- name: envfile
+  shell: cd /usr/local/pg/ && cp env.example .env

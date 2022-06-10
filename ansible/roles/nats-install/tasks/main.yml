@@ -1,0 +1,4 @@
+---
+- name: Install nats for Debian
+  import_tasks: nats_install.yml
+  when: ansible_facts['os_family']|lower == 'debian'

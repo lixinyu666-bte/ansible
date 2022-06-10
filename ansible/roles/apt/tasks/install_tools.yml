@@ -1,0 +1,16 @@
+---
+- name: install packages
+  apt:
+    state: present
+    name:
+      - htop
+      - tcpdump
+      - sngrep
+      - make
+      - iftop
+      - tar
+      - unzip
+      - wget
+      - vim
+      - apt-transport-https
+      - software-properties-common

@@ -1,0 +1,40 @@
+---
+- include: remove_oldder_version_docker.yml
+
+- name: Remove docker.list
+  file:
+    path: /etc/apt/sources.list.d/docker.list
+    state: absent
+
+- include: roles/apt/tasks/apt_update.yml
+
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg2
+      - lsb-release
+    state: present
+
+- name: Add Docker GPG key.
+  shell: rm -rf /etc/apt/keyrings && mkdir -p /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+- name: Set up the repository
+  shell: echo {{ docker_apt_repository }} | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Update apt-get repo and cache
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=1
+
+- name: Install Docker.
+  # package:
+  #   name: "{{ docker_package }}"
+  #   state: "{{ docker_package_state }}"
+  # notify: restart docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present

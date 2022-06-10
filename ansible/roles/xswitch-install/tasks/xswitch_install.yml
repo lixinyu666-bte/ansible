@@ -1,0 +1,50 @@
+---
+- name: mkdir workdir
+  shell: mkdir /usr/local/xswitch
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/xswitch/"
+
+- name: Copy env
+  copy:
+    src: "files/env.example"
+    dest: "/usr/local/xswitch/"
+
+- name: Copy xtra_config.lua
+  copy:
+    src: "files/xtra_config.lua"
+    dest: "/usr/local/xswitch/"
+
+- name: Remove package lua
+  file:
+    path: /tmp/lua.tar.gz
+    state: absent
+
+- name: Remove package xui
+  file:
+    path: /tmp/xui.tar.gz
+    state: absent
+
+- name: copy package lua
+  copy:
+    src: "lua.tar.gz"
+    dest: "/tmp"
+
+- name: copy package xui
+  copy:
+    src: "xui.tar.gz"
+    dest: "/tmp"
+
+- name: docker load
+  shell: docker load -i /tmp/lua.tar.gz && docker load -i /tmp/xui.tar.gz && docker load -i /tmp/lua.tar.gz
+
+- name: envfile
+  shell: cd /usr/local/xswitch/ && cp env.example .env
+
+- name: download sounds
+  shell: wget -P /usr/local/xswitch/ https://xswitch.cn/download/sounds.zip
+
+- name: unzip
+  shell: cd /usr/local/xswitch/ && unzip sounds.zip

@@ -1,4 +1,9 @@
 ---
 - name: Install the correct server for Debian
-  import_tasks: install_docker_debian.yml
+  import_tasks: pre_first_update.yml
   when: ansible_facts['os_family']|lower == 'debian'
+
+- include: apt_upgrade.yml
+
+- include: install_tools.yml
+
