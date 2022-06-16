@@ -1,0 +1,27 @@
+---
+- hosts: all
+  user: root
+
+  tasks:
+    - name: Remove package cadvisor
+      file:
+        path: /tmp/cadvisor.tar.gz
+        state: absent
+
+    - name: copy package cadvisor
+      copy:
+        src: "cadvisor.tar.gz"
+        dest: "/tmp"
+
+    - name: docker load
+      shell: docker load -i /tmp/cadvisor.tar.gz && docker load -i /tmp/cadvisor.tar.gz
+
+    - name: update uas version
+      replace:
+          path: /usr/local/cman/docker-compose.yml
+          regexp: '^    image.*'
+          replace: '    image: ccr.ccs.tencentyun.com/free/cadvisor:1.0.0'
+
+    - include: roles/prometheus-node-install/tasks/cadvisor_down.yml
+
+    - include: roles/prometheus-node-install/tasks/cadvisor_up.yml

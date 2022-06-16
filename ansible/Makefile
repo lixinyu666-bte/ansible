@@ -30,7 +30,7 @@ down:
 	ansible-playbook -i hosts down.yml
 
 clean:
-	rm -rf lua.tar.gz xui.tar.gz pg.tar.gz kamailio.tar.gz cman.tar.gz uas.tar.gz nats.tar.gz
+	rm -rf lua.tar.gz xui.tar.gz pg.tar.gz kamailio.tar.gz cman.tar.gz uas.tar.gz nats.tar.gz cadvisor.tar.gz node.tar.gz
 
 login:
 	docker login --username=100007721501 ccr.ccs.tencentyun.com
@@ -46,6 +46,8 @@ deploy-cman: pull-cman save-cman
 deploy-uas: pull-uas save-uas
 	ansible-playbook -i hosts --extra-vars "v=${VERSION}" deploy-uas.yml
 
+deploy-test:
+	ansible-playbook -i hosts deploy-test.yml
 
 docker-status:
 	ansible-playbook -i hosts status.yml
