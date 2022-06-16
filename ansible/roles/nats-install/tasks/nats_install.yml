@@ -15,7 +15,7 @@
 - name: copy package xui
   copy:
     src: "nats.tar.gz"
-    dest: "tmp"
+    dest: "/tmp"
 
 - name: docker load
   shell: docker load -i /tmp/nats.tar.gz && docker load -i /tmp/nats.tar.gz

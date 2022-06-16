@@ -19,6 +19,10 @@ docker-install:
 install: pull-all save-all
 	ansible-playbook -i hosts install.yml
 
+
+agent-install: pull-monitor-agent save-monitor-agent
+	ansible-playbook -i hosts agent-install.yml
+
 up:
 	ansible-playbook -i hosts up.yml
 
@@ -42,7 +46,8 @@ deploy-cman: pull-cman save-cman
 deploy-uas: pull-uas save-uas
 	ansible-playbook -i hosts --extra-vars "v=${VERSION}" deploy-uas.yml
 
-status:
+
+docker-status:
 	ansible-playbook -i hosts status.yml
 
 
@@ -74,6 +79,9 @@ pull-uas:
 pull-cman:
 	docker pull ccr.ccs.tencentyun.com/xswitch-cluster/cman:${CMAN_VERSION}
 
+pull-monitor-agent:
+	docker pull ccr.ccs.tencentyun.com/free/cadvisor:latest
+	docker pull ccr.ccs.tencentyun.com/free/node-exporter:latest
 
 save-xswitch:
 	docker save -o lua.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-lua
@@ -90,3 +98,7 @@ save-cman:
 
 save-pg:
 	docker save -o pg.tar.gz ccr.ccs.tencentyun.com/customers/xswitch-pg:latest
+
+save-monitor-agent:
+	docker save -o cadvisor.tar.gz ccr.ccs.tencentyun.com/free/cadvisor:latest
+	docker save -o node.tar.gz ccr.ccs.tencentyun.com/free/node-exporter:latest

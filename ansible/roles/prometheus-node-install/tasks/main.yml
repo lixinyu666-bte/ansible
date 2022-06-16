@@ -1,0 +1,4 @@
+---
+- name: Install prometheus node for Debian
+  import_tasks: node_install.yml
+  when: ansible_facts['os_family']|lower == 'debian'

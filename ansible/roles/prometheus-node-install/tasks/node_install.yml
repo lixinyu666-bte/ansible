@@ -1,0 +1,36 @@
+---
+- name: mkdir workdir
+  shell: mkdir -p /usr/local/monitor-agent
+
+- name: Copy yaml
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "/usr/local/monitor-agent/"
+
+- name: Remove package cadvisor
+  file:
+    path: /tmp/cadvisor.tar.gz
+    state: absent
+
+- name: Remove package node-exporter
+  file:
+    path: /tmp/node.tar.gz
+    state: absent
+
+- name: copy package cadvisor
+  copy:
+    src: "cadvisor.tar.gz"
+    dest: "/tmp"
+
+- name: copy package node-exporter
+  copy:
+    src: "node.tar.gz"
+    dest: "/tmp"
+
+- name: docker load cadvisor
+  shell: docker load -i /tmp/cadvisor.tar.gz && docker load -i /tmp/cadvisor.tar.gz
+
+- name: docker load node-exporter
+  shell: docker load -i /tmp/node.tar.gz && docker load -i /tmp/node.tar.gz
+
+- include: node_up.yml

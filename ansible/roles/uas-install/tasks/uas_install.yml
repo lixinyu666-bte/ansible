@@ -20,7 +20,7 @@
 - name: copy package uas
   copy:
     src: "uas.tar.gz"
-    dest: "tmp"
+    dest: "/tmp"
 
 - name: docker load
   shell: docker load -i /tmp/uas.tar.gz && docker load -i /tmp/uas.tar.gz
