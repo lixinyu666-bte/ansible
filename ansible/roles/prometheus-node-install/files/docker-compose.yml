@@ -2,7 +2,7 @@
 version: "3.4"
 services:
   cadvisor:
-    image: ccr.ccs.tencentyun.com/free/cadvisor:latest
+    image: ccr.ccs.tencentyun.com/free/cadvisor:1.0.0
     privileged: true
     container_name: cadvisor
     hostname: cadvisor
