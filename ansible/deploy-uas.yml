@@ -18,7 +18,7 @@
 
     - name: update uas version
       replace:
-          path: /usr/local/cman/docker-compose.yml
+          path: /usr/local/uas/docker-compose.yml
           regexp: '^    image.*'
           replace: '    image: ccr.ccs.tencentyun.com/xswitch-cluster/uas:{{ v }}'
 

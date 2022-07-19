@@ -1,7 +1,7 @@
 SHELL = /bin/bash
-VERSION = v4.0.2
+VERSION = v4.0.3
 KAM_VERSION = 5.5.4
-UAS_VERSION = v1.1.66
+UAS_VERSION = v1.1.73
 CMAN_VERSION = latest
 
 test:
@@ -41,10 +41,10 @@ deploy-xswitch: pull-xswitch save-xswitch
 	ansible-playbook -i hosts --extra-vars "v=${VERSION}" deploy-xswitch.yml
 
 deploy-cman: pull-cman save-cman
-	ansible-playbook -i hosts --extra-vars "v=${VERSION}" deploy-cman.yml
+	ansible-playbook -i hosts --extra-vars "v=${CMAN_VERSION}" deploy-cman.yml
 
 deploy-uas: pull-uas save-uas
-	ansible-playbook -i hosts --extra-vars "v=${VERSION}" deploy-uas.yml
+	ansible-playbook -i hosts --extra-vars "v=${UAS_VERSION}" deploy-uas.yml
 
 deploy-test:
 	ansible-playbook -i hosts deploy-test.yml
@@ -67,7 +67,7 @@ save-all: save-xswitch save-pg save-kamailio save-uas save-cman
 
 pull-xswitch:
 	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-lua
-	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx-xui
+	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx
 
 pull-pg:
 	docker pull ccr.ccs.tencentyun.com/customers/xswitch-pg:latest
@@ -87,7 +87,7 @@ pull-monitor-agent:
 
 save-xswitch:
 	docker save -o lua.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-lua
-	docker save -o xui.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx-xui
+	docker save -o xui.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx
 
 save-kamailio:
 	docker save -o kamailio.tar.gz ccr.ccs.tencentyun.com/olcc/kamailio-ci:${KAM_VERSION}
