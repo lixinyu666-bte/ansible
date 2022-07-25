@@ -1,5 +1,5 @@
 SHELL = /bin/bash
-VERSION = v4.0.3
+VERSION = v4.0.4
 KAM_VERSION = 5.5.4
 UAS_VERSION = v1.1.73
 CMAN_VERSION = latest
@@ -67,7 +67,7 @@ save-all: save-xswitch save-pg save-kamailio save-uas save-cman
 
 pull-xswitch:
 	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-lua
-	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx
+	docker pull ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx-xui
 
 pull-pg:
 	docker pull ccr.ccs.tencentyun.com/customers/xswitch-pg:latest
@@ -87,7 +87,7 @@ pull-monitor-agent:
 
 save-xswitch:
 	docker save -o lua.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-lua
-	docker save -o xui.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx
+	docker save -o xui.tar.gz ccr.ccs.tencentyun.com/xswitch-cloud/xswitch:${VERSION}-cloud-nginx-xui
 
 save-kamailio:
 	docker save -o kamailio.tar.gz ccr.ccs.tencentyun.com/olcc/kamailio-ci:${KAM_VERSION}
